@@ -1,0 +1,493 @@
+@import url('https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps&display=swap');
+:root {
+  /* 
+        FIRST WE'LL DEFINE OUR SWATCHES, i.e. THE COMPLEMENTARY
+        COLORS THAT WE'LL USE TOGETHER IN MULTIPLE PLACES THAT
+        TOGETHER WILL MAKE UP A GIVEN THEME
+    
+        @author McKilla Gorilla
+    */
+  --swatch-foundation: #eeeedd;
+  --swatch-primary: #e6e6e6;
+  --swatch-complement: #e1e4cb;
+  --swatch-contrast: #111111;
+  --swatch-accent: #066106;
+  --swatch-status: #123456;
+  --my-font-family: "Robaaaoto";
+  --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
+}
+
+body {
+  background-color: var(--swatch-foundation);
+}
+
+#root {
+  background-color: var(--swatch-primary);
+  font-family: "Lexend Exa";
+  position: absolute;
+  width: 95%;
+  left: 2.5%;
+  height: 95%;
+  top: 2.5%;
+}
+
+#app-root {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+}
+
+#splash-screen {
+  background-image: linear-gradient(to bottom, #f2eded, #e37210);
+  font-size: 25pt;
+  border-color: black;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 10px;
+  padding-left: 0%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  height:70%;
+  text-align: center;
+  vertical-align: center;
+}
+
+#splash-screen-logo {
+  padding-left: 5%;
+  font-size: 60%;
+  color: rgb(174, 31, 31);
+  text-align: left;
+}
+#register-button{
+  width: 100px;
+  height: 80px;
+}
+#login-button{
+  width: 100px;
+  height: 80px;
+}
+#guest-button{
+  width: 100px;
+  height: 80px;
+}
+#edit-toolbar {
+  background-color: transparent;
+  float: right;
+}
+
+#homescreen {
+  position: absolute;
+  left: 0%;
+  top: 10%;
+  width: 100%;
+  height: 80%;
+  background-color: var(--swatch-primary);
+}
+
+#playlister-statusbar {
+  position: absolute;
+  left: 0%;
+  top: 90%;
+  width: 100%;
+  height: 10%;
+  display: flex;
+  background-color: #bfbfbf;
+  align-items: center;
+  justify-content: center;
+  font-size: 36pt;
+}
+
+#homescreen-heading {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 10%;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: left;
+  font-size: 24pt;
+  font-weight: bold;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+}
+
+#homescreen-sections {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  margin-top: 4.5%;
+  margin-bottom: 5%;
+  height: 87.5%;
+  width: 100%;
+}
+
+#add-list-button {
+  float: left;
+}
+
+#playlist-selector-list {
+  width: 60%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#player-comment-tab {
+  width: 40%;
+  height: 100%;
+}
+
+.list-card,
+.selected-list-card,
+.unselected-list-card {
+  font-size: 18pt;
+  color: white;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 25px;
+}
+
+.list-card:aria-disabled,
+.list-card[aria-disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  pointer-events: none;
+}
+
+.unselected-list-card:hover {
+  cursor: pointer;
+  background-color: #FFAE42;
+  color: white;
+}
+
+.selected-list-card {
+  background-color: var(--swatch-accent);
+  color: white;
+}
+
+.unselected-list-card {
+  background-color: #528AAE;
+}
+
+.list-card-button {
+  float: right;
+  font-size: 18pt;
+}
+
+#edit-numbering {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 20%;
+  height: 100%;
+  background-color: var(--swatch-status);
+}
+
+#edit-items {
+  position: absolute;
+  left: 20%;
+  top: 0%;
+  width: 80%;
+  height: 100%;
+  background-color: var(--swatch-primary);
+}
+
+input {
+  font-size: 20pt;
+}
+
+.disabled {
+  background-color: lightgray;
+}
+
+.disabled:hover {
+  color: var(--swatch-neutral);
+}
+
+/* THIS STYLE SHEET MANAGES STYLE FOR OUR MODAL, i.e. DIALOG BOX */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: var(--black);
+  color: var(--swatch-text);
+  cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.35s ease-in;
+  font-family: var(--font-primary);
+}
+
+.modal.is-visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal-dialog {
+  position: relative;
+  max-width: 800px;
+  max-height: 80vh;
+  background: var(--swatch-complement);
+  overflow: auto;
+  cursor: default;
+  border-width: 5px;
+  border-radius: 10px;
+  border-style: groove;
+}
+
+.modal-dialog > * {
+  padding: 1rem;
+}
+
+.modal-header,
+.modal-footer {
+  background: var(--lightgray);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: dotted;
+}
+
+.modal-header,
+.modal-close {
+  font-size: 1.5rem;
+}
+
+.modal-root {
+  position: relative;
+  max-width: 1200vw;
+  max-height: 600vh;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  background: var(--swatch-complement);
+  cursor: default;
+  border-width: 2px;
+  border-color: black;
+  border-style: solid;
+  box-shadow: 5px 10px #888888;
+}
+
+.modal-root > * {
+  padding: 1rem;
+}
+
+.modal-north {
+  font-size:32pt;
+  font-weight: bold;
+  background-color: #669966;
+  color:white;
+}
+
+.modal-center {
+  display: grid;
+  grid-template-columns: 30% 65%;
+  grid-template-rows: 33% 33% 33%;
+  gap: 10px 20px;
+  font-size: 32pt;
+}
+
+.modal-control {
+  cursor: pointer;
+  width: 20%;
+}
+
+span {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.modal-south {
+  display:flex;
+  flex-direction: row;
+  background-color: lightgray;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-center-content {
+  grid-column: 1 / 3;
+  grid-row: 1 / 4;
+}
+
+.modal-prompt {  
+  font-size:28pt;
+  font-weight: bold;
+}
+
+.modal-textfield {
+  font-size:28pt;
+}
+
+.modal-button {
+  font-size: 20pt;
+}
+
+#title-prompt {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+#edit-song-modal-title-textfield {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+#artist-prompt {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+#edit-song-modal-artist-textfield {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+
+#you-tube-id-prompt {
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+}
+
+#edit-song-modal-youTubeId-textfield {
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
+}
+
+.confirm-cancel-box {
+  grid-column: 1 / 3;
+  grid-row: 3 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-button {
+  margin:5px;
+}
+
+.modal p + p {
+  margin-top: 1rem;
+}
+
+.dialog-header {
+  font-size: 24pt;
+}
+
+#close-modal-button {
+  float: right;
+}
+
+#confirm-cancel-container {
+  text-align: center;
+}
+
+/* ANIMATIONS
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+[data-animation] .modal-dialog {
+  opacity: 0;
+  transition: all 0.5s var(--bounceEasing);
+}
+
+[data-animation].is-visible .modal-dialog {
+  opacity: 1;
+  transition-delay: 0.2s;
+}
+
+[data-animation="slideInOutDown"] .modal-dialog {
+  transform: translateY(100%);
+}
+
+[data-animation="slideInOutTop"] .modal-dialog {
+  transform: translateY(-100%);
+}
+
+[data-animation="slideInOutLeft"] .modal-dialog {
+  transform: translateX(-100%);
+}
+
+[data-animation="slideInOutRight"] .modal-dialog {
+  transform: translateX(100%);
+}
+
+[data-animation="zoomInOut"] .modal-dialog {
+  transform: scale(0.2);
+}
+
+[data-animation="rotateInOutDown"] .modal-dialog {
+  transform-origin: top left;
+  transform: rotate(-1turn);
+}
+
+[data-animation="mixInAnimations"].is-visible .modal-dialog {
+  animation: mixInAnimations 2s 0.2s linear forwards;
+}
+
+[data-animation="slideInOutDown"].is-visible .modal-dialog,
+[data-animation="slideInOutTop"].is-visible .modal-dialog,
+[data-animation="slideInOutLeft"].is-visible .modal-dialog,
+[data-animation="slideInOutRight"].is-visible .modal-dialog,
+[data-animation="zoomInOut"].is-visible .modal-dialog,
+[data-animation="rotateInOutDown"].is-visible .modal-dialog {
+  transform: none;
+}
+
+@keyframes mixInAnimations {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  10% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: rotate(20deg);
+  }
+
+  30% {
+    transform: rotate(-20deg);
+  }
+
+  40% {
+    transform: rotate(15deg);
+  }
+
+  50% {
+    transform: rotate(-15deg);
+  }
+
+  60% {
+    transform: rotate(10deg);
+  }
+
+  70% {
+    transform: rotate(-10deg);
+  }
+
+  80% {
+    transform: rotate(5deg);
+  }
+
+  90% {
+    transform: rotate(-5deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
